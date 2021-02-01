@@ -65,7 +65,8 @@ function Tweet({ tweetObj, isOwner }) {
               </span>
             </div>
           )}
-          <span style={{marginTop:" 10px", fontSize: "10px"}}>by {tweetObj.creatorDisplayName}</span>
+          <div style={{marginTop:" 10px", fontSize: "10px"}}>by {tweetObj.creatorDisplayName || 'Anonymous'}</div>
+          <div style={{marginTop:" 10px", fontSize: "10px"}}>{new Date(tweetObj.createdAt.toDate()).toLocaleDateString()} {new Date(tweetObj.createdAt.toDate()).toLocaleTimeString()}</div>
           </>
         )
       }

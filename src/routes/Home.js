@@ -7,7 +7,7 @@ const Home = ({ userObj }) => {
   const [tweets, setTweets] = useState([]);
 
   useEffect(() => {
-    const unsub = dbService.collection("tweets").onSnapshot((snapshot) => {
+    const unsub = dbService.collection("tweets").orderBy('createdAt', 'desc').onSnapshot((snapshot) => {
       const tweetArray = snapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),

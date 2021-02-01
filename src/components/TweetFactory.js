@@ -21,7 +21,7 @@ function TweetFactory({ userObj }) {
     }
     const newTweet = {
       text: tweet,
-      createdAt: Date.now(),
+      createdAt: new Date(),
       creatorId: userObj.uid,
       attachmentUrl,
       creatorDisplayName: userObj.displayName,
