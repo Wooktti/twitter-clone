@@ -1,7 +1,10 @@
 import { dbService, storageService } from 'fbase';
 import React, { useState } from 'react'
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash, faPencilAlt } from "@fortawesome/free-solid-svg-icons";
+import "components/Tweet.css";
+import { IconButton } from '@material-ui/core';
+import DeleteIcon from '@material-ui/icons/Delete';
+import EditIcon from '@material-ui/icons/Edit';
+import { Link } from 'react-router-dom';
 
 function Tweet({ tweetObj, isOwner }) {
   const [editing, setEditing] = useState(false);
@@ -31,42 +34,66 @@ function Tweet({ tweetObj, isOwner }) {
     setNewTweet(value);
   };
   return (
-    <div className="nweet">
+    <div className="tweet">
       {
         editing ? (
           <>
             {isOwner && 
             <>
-            <form onSubmit={onSubmit} className="container nweetEdit">
+            <form onSubmit={onSubmit} className="tweet__editContainer">
               <input 
                 type="text" 
                 placeholder="Edit your tweet" 
                 value={newTweet} 
                 required
                 onChange={onChange}
-                className="formInput"
+                className="tweet__editTextInput"
               />
-              <input type="submit" value="Update Tweet" className="formBtn"/>
+              <input type="submit" value="Update Tweet" className="tweet__editSubmitBtn"/>
             </form>
-            <button onClick={toggleEditing} className="formBtn cancelBtn">Cancel</button>
+            <button onClick={toggleEditing} className="tweet__editCancelBtn">Cancel</button>
             </>}
           </>
         ) : (
           <>
-          <h4>{tweetObj.text}</h4>
-          {tweetObj.attachmentUrl && <img src={tweetObj.attachmentUrl} alt=""/>}
-          {isOwner && (
-            <div className="nweet__actions">
-              <span onClick={onDeleteClick}>
-                <FontAwesomeIcon icon={faTrash} />
-              </span>
-              <span onClick={toggleEditing}>
-                <FontAwesomeIcon icon={faPencilAlt} />
-              </span>
+          <div className="tweet__header" >
+            <div className="tweet__metaInfos">
+
+              <img src="https://avatars.dicebear.com/4.5/api/male/.svg" alt="" className="tweet__creatorProfileImg" />
+
+              <div className="tweet__nameAndTime">
+                <Link to={`/profile/${tweetObj.creatorId}`}>
+                <h4 className="tweet__creatorDisplayName">{tweetObj.creatorDisplayName || 'Anonymous'}</h4>
+                </Link>
+                <div className="tweet__createdTime">
+                  {new Date(tweetObj.createdAt.toDate()).toLocaleDateString()} {new Date(tweetObj.createdAt.toDate()).toLocaleTimeString()}
+                </div>
+              </div>
+
             </div>
-          )}
-          <div style={{marginTop:" 10px", fontSize: "10px"}}>by {tweetObj.creatorDisplayName || 'Anonymous'}</div>
-          <div style={{marginTop:" 10px", fontSize: "10px"}}>{new Date(tweetObj.createdAt.toDate()).toLocaleDateString()} {new Date(tweetObj.createdAt.toDate()).toLocaleTimeString()}</div>
+            <div className="tweet__actions">
+              {isOwner && (
+              <>
+                <IconButton onClick={onDeleteClick}>
+                  <DeleteIcon />
+                </IconButton>
+                <IconButton onClick={toggleEditing}>
+                  <EditIcon />
+                </IconButton>
+              </>
+              )}
+            </div>
+          </div>
+          <div className="tweet__content">
+            {tweetObj.attachmentUrl && <img src={tweetObj.attachmentUrl} alt="" className="tweet__tweetImg"/>}
+            <div className="tweet__text">
+              <span>{tweetObj.text}</span>
+            </div>
+          </div>
+          <div className="tweet__comments">
+            This is test comment.
+          </div>
+          
           </>
         )
       }

@@ -2,6 +2,7 @@ import Tweet from 'components/Tweet';
 import TweetFactory from 'components/TweetFactory';
 import { dbService } from 'fbase';
 import React, { useState, useEffect } from 'react';
+import "./Home.css";
 
 const Home = ({ userObj }) => {
   const [tweets, setTweets] = useState([]);
@@ -21,7 +22,7 @@ const Home = ({ userObj }) => {
 
 
   return (
-    <div className="container">
+    <div className="home">
       <TweetFactory userObj={userObj}/>
       <div style={{ marginTop: 30 }}>
         {tweets.map((tweet) => (

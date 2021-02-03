@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faTimes } from "@fortawesome/free-solid-svg-icons";
+import "./TweetFactory.css"
 
 function TweetFactory({ userObj }) {
   const [tweet, setTweet] = useState("");
@@ -56,6 +57,7 @@ function TweetFactory({ userObj }) {
   const onClearAttachment = () => setAttachment(null);
 
   return (
+    <div className="tweetFactory">
     <form onSubmit={onSubmit} className="factoryForm">
       <div className="factoryInput__container">
         <input 
@@ -97,6 +99,7 @@ function TweetFactory({ userObj }) {
           </div>
         )}
       </form>
+      </div>
   )
 }
 

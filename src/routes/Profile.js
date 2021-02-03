@@ -1,10 +1,24 @@
-import { authService } from 'fbase';
-import React, { useState } from 'react';
+import Tweet from 'components/Tweet';
+import { authService, dbService } from 'fbase';
+import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
 const Profile = ({ refreshUser, userObj }) => {
   const history = useHistory();
   const [newDisplayName, setNewDisplayName] = useState(userObj.displayName);
+  const [myTweets, setMyTweets] = useState([]);
+
+  useEffect(() => {
+    const unsub = dbService.collection("tweets").orderBy('createdAt', 'desc').onSnapshot((snapshot) => {
+      const tweetArray = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setMyTweets(tweetArray);
+    });
+
+    return () => unsub();
+  }, []);
 
   const onLogoutClick = () => {
     authService.signOut();
@@ -27,6 +41,7 @@ const Profile = ({ refreshUser, userObj }) => {
   };
 
   return (
+    <>
     <div className="container">
     <form onSubmit={onSubmit} className="profileForm">
       <input
@@ -50,6 +65,15 @@ const Profile = ({ refreshUser, userObj }) => {
       Log Out
     </span>
   </div>
+
+  <div className="profile__myTweets">
+    <h2>Your Tweets</h2>
+    {myTweets.map((tweet) => (
+      tweet.creatorId === userObj.uid ? 
+        <Tweet key={tweet.id} tweetObj={tweet} isOwner={tweet.creatorId === userObj.uid}/> : null)
+      )}
+  </div>
+  </>
   );
 };
 

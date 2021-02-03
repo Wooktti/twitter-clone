@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import AppRouter from 'components/Router';
 import { authService } from 'fbase';
+import "components/App.css"
 
 function App() {
   const [init, setInit] = useState(false);
@@ -41,7 +42,7 @@ function App() {
       ) : (
         "Loading...."
       )}
-      <footer>&copy; {new Date().getFullYear()} Twitter</footer>
+      <footer className="footer">&copy; {new Date().getFullYear()} Twitter Clone Practice</footer>
     </>
   );
 }

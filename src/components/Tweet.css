@@ -1,0 +1,74 @@
+.tweet {
+  margin-top: 50px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 50px;
+  width: 50vw;
+  min-width: 350px;
+  max-width: 700px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  border: 1px solid lightgray;
+}
+
+.tweet__header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  border-bottom: 1px solid lightgray;
+  padding: 8px 10px;
+  background-color: rgb(243, 243, 243);
+  justify-content: space-between;
+}
+
+.tweet__metaInfos {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.tweet__nameAndTime {
+  margin-left: 10px;
+}
+
+.tweet__nameAndTime a {
+  color: black;
+  text-decoration: none;
+}
+
+.tweet__nameAndTime a:hover {
+  color: black;
+  text-decoration: underline;
+}
+
+.tweet__createdTime {
+  margin-top: 5px;
+  font-size: 12px;
+  color: gray;
+}
+
+.tweet__tweetImg {
+  width: 100%;
+  height: auto;
+  border-bottom: 1px solid lightgray;
+}
+
+.tweet__creatorProfileImg {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  background-color: white;
+}
+
+.tweet__actions .MuiIconButton-root {
+  padding: 8px;
+}
+
+.tweet__actions .MuiSvgIcon-root {
+  font-size: 25px;
+}
+
+.tweet__text {
+  font-size: 14px;
+  padding: 10px 15px;
+  word-wrap: break-word;
+}
