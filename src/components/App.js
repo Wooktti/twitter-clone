@@ -8,7 +8,7 @@ function App() {
   const [userObj, setUserObj] = useState(null);
 
   useEffect(() => {
-    authService.onAuthStateChanged((user) => {
+    const unsub = authService.onAuthStateChanged((user) => {
       if(user) {
         setUserObj({
           displayName: user.displayName,
@@ -21,6 +21,7 @@ function App() {
       }
       setInit(true);
     });
+    return () => unsub();
   }, []);
 
   const refreshUser = () => {
