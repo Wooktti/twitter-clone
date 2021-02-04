@@ -1,0 +1,44 @@
+.commentFactory {
+  align-self: center;
+}
+
+.commentFactory__form {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin-left: 36px;
+}
+
+.commentFactory__input {
+  width: 40vw;
+  min-width: 300px;
+  max-width: 500px;
+  height: 34px;
+  border-radius: 18px;
+  padding: 0 10px;
+  border: 1px solid lightgray;
+}
+
+.commentFactory__input:focus {
+  outline: none;
+  border: 1px solid #04AAFF;
+}
+
+.commentFactory__submitBtn {
+  width: 36px;
+  height: 36px;
+  border-radius: 18px;
+  position: relative;
+  right: 36px;
+  border: none;
+  color: white;
+  background-color: #04AAFF;
+  font-size: large;
+}
+
+.commentFactory__submitBtn:hover {
+  cursor: pointer;
+  background-color: #0076b1;
+}

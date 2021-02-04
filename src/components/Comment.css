@@ -1,0 +1,40 @@
+.comment {
+  display: flex;
+  margin: 5px 10px;
+}
+
+.comment__profileImg > img {
+  width: 36px;
+  border-radius: 50%;
+  border: 1px solid lightgray;
+}
+
+.comment__profileImg > .MuiSvgIcon-root {
+  color: #04AAFF;
+  font-size: 36px;
+  border-radius: 50%;
+  border: 1px solid #04AAFF;
+}
+
+.comment__contents {
+  margin-left: 10px;
+  background-color: rgb(243, 243, 243);
+  border-radius: 20px;
+  padding: 3px 16px;
+}
+
+.comment__contents span {
+  font-size: x-small;
+}
+.comment__contents p {
+  font-size: 15px;
+}
+
+.comment__contents a {
+  text-decoration: none;
+  color: black;
+}
+
+.comment__contents a:hover {
+  text-decoration: underline;
+}

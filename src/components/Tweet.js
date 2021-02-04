@@ -1,5 +1,5 @@
 import { dbService, storageService } from 'fbase';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import "components/Tweet.css";
 import { Button, IconButton } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -10,11 +10,39 @@ import CommentIcon from '@material-ui/icons/Comment';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import CancelIcon from '@material-ui/icons/Cancel';
 import UpdateIcon from '@material-ui/icons/Update';
+import Comment from './Comment';
+import CommentFactory from './CommentFactory';
 
 function Tweet({ tweetObj, isOwner, userObj }) {
   const [editing, setEditing] = useState(false);
   const [newTweet, setNewTweet] = useState(tweetObj.text);
   const [liked, setLiked] = useState(tweetObj.likes.includes(userObj.uid));
+  const [seeingComment, setSeeingComment] = useState(false);
+  const [comments, setComments] = useState([]);
+
+  useEffect(() => {
+    setLiked(tweetObj.likes.includes(userObj.uid));
+  }, [tweetObj, userObj]);
+
+  useEffect(() => {
+    const unsub = dbService
+      .collection("tweets")
+      .doc(tweetObj.id)
+      .collection("comments")
+      .orderBy("timestamp", "asc")
+      .onSnapshot((snapshot) => {
+      setComments(snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data()
+      })));
+    });
+
+    return () => unsub();
+  }, [tweetObj.id]);
+
+  const onCommentClick = () => {
+    setSeeingComment(!seeingComment);
+  }
 
   const onLikeClick =  () => {
     //console.log("current liked: ", liked);
@@ -53,6 +81,7 @@ function Tweet({ tweetObj, isOwner, userObj }) {
     });
     setEditing(false);
   };
+
   const onChange = (event) => {
     const {target:{value}} = event;
     setNewTweet(value);
@@ -120,11 +149,28 @@ function Tweet({ tweetObj, isOwner, userObj }) {
               {tweetObj.likes.length} {tweetObj.likes.length === 1 ? 'Like' : 'Likes'}
             </Button>
 
-            <Button startIcon={<CommentIcon style={{color: "#04AAFF"}}/>}>
-              Comment
+            <Button onClick={onCommentClick} startIcon={<CommentIcon style={{color: "#04AAFF"}}/>}>
+            {comments.length} {comments.length === 1 ? 'Comment' : 'Comments'}
             </Button>
 
           </div>
+
+          {seeingComment && (
+            <div className="tweet__comments">
+              {comments.map(({ id, description, timestamp, writerId, writerDisplayName, writerPhotoUrl }) => (
+              <Comment
+                key={id}
+                description={description}
+                timestamp={timestamp}
+                writerDisplayName={writerDisplayName}
+                writerPhotoUrl={writerPhotoUrl}
+                writerId={writerId}
+              />
+              ))}
+              {comments.length === 0 ? <span className="tweet__comments__memo">Write a First Comment!</span>: ""}
+              <CommentFactory tweetObj={tweetObj} userObj={userObj}/>
+            </div>
+          )}
           
           </>
         )
