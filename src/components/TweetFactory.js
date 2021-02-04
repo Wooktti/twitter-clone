@@ -8,8 +8,10 @@ import CloseIcon from '@material-ui/icons/Close';
 function TweetFactory({ userObj }) {
   const [tweet, setTweet] = useState("");
   const [attachment, setAttachment] = useState(null);
+  const [isUploading, setIsUploading] = useState(false);
 
   const onSubmit = async (event) => {
+
     if (tweet === "") {
       return;
     }
@@ -59,7 +61,13 @@ function TweetFactory({ userObj }) {
 
   return (
     <div className="tweetFactory">
-      <form onSubmit={onSubmit} className="tweetFactory__form">
+      {isUploading ? (
+        "Uploading..."
+      ): (
+        <form onSubmit={(event) => {
+          setIsUploading(true);
+          onSubmit(event).then(() => setIsUploading(false));
+          }} className="tweetFactory__form">
         <div className="tweetFactory__inputContainer">
           <input 
             value={tweet}
@@ -95,7 +103,8 @@ function TweetFactory({ userObj }) {
           </div>
         )}
         </form>
-      </div>
+      )}
+    </div>
   )
 }
 
