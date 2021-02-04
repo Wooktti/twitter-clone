@@ -1,3 +1,89 @@
-.factoryForm {
-  padding: 20px;
+.tweetFactory {
+  padding-top: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.tweetFactory__file {
+  display: none;
+}
+
+.tweetFactory__input {
+  width: 40vw;
+  min-width: 300px;
+  max-width: 500px;
+  height: 34px;
+  border-radius: 18px;
+  padding: 0 10px;
+  border: 1px solid lightgray;
+}
+
+.tweetFactory__input:focus {
+  outline: none;
+  border: 1px solid #04AAFF;
+}
+
+.tweetFactory__form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.tweetFactory__inputContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin-left: 36px;
+}
+
+.tweetFactory__label {
+  display: flex;
+  align-items: center;
+  padding: 5px;
+}
+
+.tweetFactory__label:hover{
+  cursor: pointer;
+  color:#04AAFF;
+}
+
+.tweetFactory__submitBtn {
+  width: 36px;
+  height: 36px;
+  border-radius: 18px;
+  position: relative;
+  right: 36px;
+  border: none;
+  color: white;
+  background-color: #04AAFF;
+  font-size: large;
+}
+
+.tweetFactory__submitBtn:hover {
+  cursor: pointer;
+  background-color: #0076b1;
+}
+
+.tweetFactory__attachment {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.tweetFactory__attachment img {
+  width: 150px;
+  border: 1px solid lightgray;
+  background-color: white;
+}
+
+.tweetFactory__clear {
+  display: flex;
+  flex-direction: row;
+  padding: 5px;
+}
+
+.tweetFactory__clear:hover {
+  cursor: pointer;
+  color: red;
 }

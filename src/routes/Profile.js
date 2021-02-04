@@ -2,11 +2,17 @@ import Tweet from 'components/Tweet';
 import { authService, dbService } from 'fbase';
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import "./Profile.css";
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import { Button } from '@material-ui/core';
+import EditIcon from '@material-ui/icons/Edit';
+import ClearIcon from '@material-ui/icons/Clear';
 
 const Profile = ({ refreshUser, userObj }) => {
   const history = useHistory();
   const [newDisplayName, setNewDisplayName] = useState(userObj.displayName);
   const [myTweets, setMyTweets] = useState([]);
+  const [changingDisplayName, setChangingDisplayName] = useState(false);
 
   useEffect(() => {
     const unsub = dbService.collection("tweets").orderBy('createdAt', 'desc').onSnapshot((snapshot) => {
@@ -31,6 +37,7 @@ const Profile = ({ refreshUser, userObj }) => {
   };
 
   const onSubmit = async (event) => {
+    setChangingDisplayName(false);
     event.preventDefault();
     if(userObj.displayName !== newDisplayName) {
       await userObj.updateProfile({
@@ -40,40 +47,47 @@ const Profile = ({ refreshUser, userObj }) => {
     }
   };
 
-  return (
-    <>
-    <div className="container">
-    <form onSubmit={onSubmit} className="profileForm">
-      <input
-        onChange={onChange}
-        type="text"
-        autoFocus
-        placeholder="Display name"
-        value={newDisplayName}
-        className="formInput"
-      />
-      <input
-        type="submit"
-        value="Update Profile"
-        className="formBtn"
-        style={{
-          marginTop: 10,
-        }}
-      />
-    </form>
-    <span className="formBtn cancelBtn logOut" onClick={onLogoutClick}>
-      Log Out
-    </span>
-  </div>
+  const onChangeDisplayNameClick = () => setChangingDisplayName(!changingDisplayName);
 
-  <div className="profile__myTweets">
-    <h2>Your Tweets</h2>
-    {myTweets.map((tweet) => (
-      tweet.creatorId === userObj.uid ? 
-        <Tweet key={tweet.id} tweetObj={tweet} isOwner={tweet.creatorId === userObj.uid}/> : null)
+  return (
+    <div className="profile">
+      {changingDisplayName && (
+        <div className="profile__nameEdit">
+          <form onSubmit={onSubmit} className="profile__form">
+            <input
+              onChange={onChange}
+              type="text"
+              autoFocus
+              placeholder="Display name"
+              value={newDisplayName}
+              className="profile__input"
+            />
+            <input
+              type="submit"
+              value="&rarr;"
+              className="profile__submitBtn"
+            />
+          </form>
+        </div>
       )}
+
+    <div className="profile__actions">
+      <Button startIcon={changingDisplayName ? <ClearIcon /> : <EditIcon />} onClick={onChangeDisplayNameClick}>
+        {changingDisplayName ? "Cancel" : "CHANGE DISPLAY NAME"}
+      </Button>
+      <Button startIcon={<ExitToAppIcon />} onClick={onLogoutClick}>
+        LOGOUT
+      </Button>
+    </div>
+
+    <div className="profile__myTweets">
+      <h2>Your Tweets</h2>
+      {myTweets.map((tweet) => (
+        tweet.creatorId === userObj.uid ? 
+          <Tweet key={tweet.id} tweetObj={tweet} isOwner={tweet.creatorId === userObj.uid} userObj={userObj}/> : null)
+        )}
+    </div>
   </div>
-  </>
   );
 };
 

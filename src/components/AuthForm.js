@@ -1,11 +1,12 @@
 import { authService } from 'fbase';
 import React, { useState } from 'react';
+import "./AuthForm.css";
 
 function AuthForm() {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [newAccount, setNewAccount] = useState(true);
+  const [newAccount, setNewAccount] = useState(false);
   const [error, setError] = useState('');
   const [passwordCheck, setPasswordCheck] = useState('');
 
@@ -44,8 +45,8 @@ function AuthForm() {
   const toggleAccount = () => setNewAccount((prev) => !prev);
 
   return (
-    <>
-    <form onSubmit={onSubmit} className="container">
+    <div className="authForm">
+      <form onSubmit={onSubmit} className="authForm__container">
         <input 
           name="email"
           type="email" 
@@ -53,7 +54,7 @@ function AuthForm() {
           required 
           value={email}
           onChange={onChange}
-          className="authInput"
+          className="authForm__input"
         />
         <input 
           name="password"
@@ -62,7 +63,7 @@ function AuthForm() {
           required 
           value={password}
           onChange={onChange}
-          className="authInput"
+          className="authForm__input"
         />
         {
           newAccount && (
@@ -74,7 +75,7 @@ function AuthForm() {
                 required
                 value={passwordCheck}
                 onChange={onChange}
-                className="authInput"
+                className="authForm__input"
               />
             </>
           )
@@ -82,14 +83,16 @@ function AuthForm() {
         <input 
           type="submit" 
           value={newAccount ? "Create Account" : "Sign In"}
-          className="authInput authSubmit"
+          className="authForm__submitBtn"
         />
-        {error && <span className="authError">{error}</span>}
+        {error && <span className="authForm__error">{error}</span>}
       </form>
-      <span onClick={toggleAccount} className="authSwitch">
+
+      <span onClick={toggleAccount} className="authForm__switch">
         {newAccount ? "Sign In" : "Create Account"}
       </span>
-    </>
+
+    </div>
   )
 }
 

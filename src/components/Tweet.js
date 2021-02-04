@@ -1,14 +1,38 @@
 import { dbService, storageService } from 'fbase';
 import React, { useState } from 'react'
 import "components/Tweet.css";
-import { IconButton } from '@material-ui/core';
+import { Button, IconButton } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import { Link } from 'react-router-dom';
+import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
+import CommentIcon from '@material-ui/icons/Comment';
+import FavoriteIcon from '@material-ui/icons/Favorite';
+import CancelIcon from '@material-ui/icons/Cancel';
+import UpdateIcon from '@material-ui/icons/Update';
 
-function Tweet({ tweetObj, isOwner }) {
+function Tweet({ tweetObj, isOwner, userObj }) {
   const [editing, setEditing] = useState(false);
   const [newTweet, setNewTweet] = useState(tweetObj.text);
+  const [liked, setLiked] = useState(tweetObj.likes.includes(userObj.uid));
+
+  const onLikeClick =  () => {
+    //console.log("current liked: ", liked);
+    if (!liked) {
+      dbService.doc(`tweets/${tweetObj.id}`).update({
+        likes: [...tweetObj.likes, userObj.uid]
+      });
+      setLiked(!liked);
+    } else {
+      let updatedLikesArray = tweetObj.likes;
+      const idx = updatedLikesArray.indexOf(tweetObj.uid);
+      updatedLikesArray.splice(idx, 1);
+      dbService.doc(`tweets/${tweetObj.id}`).update({
+        likes: updatedLikesArray
+      });
+      setLiked(!liked);
+    }
+  }
 
   const onDeleteClick = async () => {
     const ok = window.confirm("Are you sure you want to delete this tweet?");
@@ -22,8 +46,8 @@ function Tweet({ tweetObj, isOwner }) {
   };
 
   const toggleEditing = () => setEditing((prev) => !prev);
-  const onSubmit = async (event) => {
-    event.preventDefault();
+
+  const onSubmit = async () => {
     await dbService.doc(`tweets/${tweetObj.id}`).update({
       text: newTweet
     });
@@ -39,20 +63,20 @@ function Tweet({ tweetObj, isOwner }) {
         editing ? (
           <>
             {isOwner && 
-            <>
-            <form onSubmit={onSubmit} className="tweet__editContainer">
-              <input 
-                type="text" 
+            <div className="tweet__edit">
+              <textarea
                 placeholder="Edit your tweet" 
                 value={newTweet} 
                 required
                 onChange={onChange}
+                maxLength={120}
                 className="tweet__editTextInput"
               />
-              <input type="submit" value="Update Tweet" className="tweet__editSubmitBtn"/>
-            </form>
-            <button onClick={toggleEditing} className="tweet__editCancelBtn">Cancel</button>
-            </>}
+              <div className="tweet__editActions">
+                <Button startIcon={<CancelIcon />} onClick={toggleEditing} className="tweet__editCancel">Cancel</Button>
+                <Button startIcon={<UpdateIcon />} onClick={onSubmit} className="tweet__editUpdate">Update</Button>
+              </div>
+            </div>}
           </>
         ) : (
           <>
@@ -90,8 +114,16 @@ function Tweet({ tweetObj, isOwner }) {
               <span>{tweetObj.text}</span>
             </div>
           </div>
-          <div className="tweet__comments">
-            This is test comment.
+          <div className="tweet__footer">
+
+            <Button onClick={onLikeClick} startIcon={liked ? <FavoriteIcon style={{color: "#04AAFF"}} /> : <FavoriteBorderIcon style={{color: "#04AAFF"}} />}>
+              {tweetObj.likes.length} {tweetObj.likes.length === 1 ? 'Like' : 'Likes'}
+            </Button>
+
+            <Button startIcon={<CommentIcon style={{color: "#04AAFF"}}/>}>
+              Comment
+            </Button>
+
           </div>
           
           </>

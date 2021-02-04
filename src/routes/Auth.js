@@ -7,6 +7,7 @@ import {
   faGithub,
 } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import "./Auth.css";
 
 const Auth = () => {
 
@@ -29,7 +30,7 @@ const Auth = () => {
   };
 
   return (
-    <div className="authContainer">
+    <div className="auth">
       <FontAwesomeIcon
         icon={faTwitter}
         color={"#04AAFF"}
@@ -37,12 +38,13 @@ const Auth = () => {
         style={{ marginBottom: 30 }}
       />
       <AuthForm />
-      <div className="authBtns">
-        <button onClick={onSocialClick} name="google" className="authBtn">
-          Continue with Google <FontAwesomeIcon icon={faGoogle} />
+      <span className="auth__memo">or you can continue with</span>
+      <div className="auth__socialSignIn">
+        <button onClick={onSocialClick} name="google" className="auth__btn">
+          Google <FontAwesomeIcon icon={faGoogle} />
         </button>
-        <button onClick={onSocialClick} name="github" className="authBtn">
-          Continue with Github <FontAwesomeIcon icon={faGithub} />
+        <button onClick={onSocialClick} name="github" className="auth__btn">
+          Github <FontAwesomeIcon icon={faGithub} />
         </button>
       </div>
     </div>

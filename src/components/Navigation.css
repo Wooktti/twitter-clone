@@ -1,0 +1,41 @@
+.nav {
+  position: sticky;
+  top: 0;
+  padding: 10px 30vw;
+  border-bottom: 1px solid lightgray;
+  background-color: white;
+  z-index: 1;
+}
+
+.nav ul {
+  list-style: none;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+.nav a {
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.nav a > .MuiSvgIcon-root {
+  color: #04AAFF;
+  font-size: 35px;
+}
+
+.nav a img {
+  width: 35px;
+  border-radius: 50%;
+}
+
+.nav a span {
+  color: black;
+  font-size: medium;
+}
+
+.nav a span:hover {
+  text-decoration: underline;
+}
