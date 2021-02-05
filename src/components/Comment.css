@@ -38,3 +38,12 @@
 .comment__contents a:hover {
   text-decoration: underline;
 }
+
+.comment__actions {
+  display: flex;
+  flex-direction: column;
+}
+
+.comment__actions > .MuiIconButton-root {
+  padding: 3px;
+}

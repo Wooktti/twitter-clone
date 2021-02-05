@@ -160,11 +160,14 @@ function Tweet({ tweetObj, isOwner, userObj }) {
               {comments.map(({ id, description, timestamp, writerId, writerDisplayName, writerPhotoUrl }) => (
               <Comment
                 key={id}
+                id={id}
                 description={description}
                 timestamp={timestamp}
                 writerDisplayName={writerDisplayName}
                 writerPhotoUrl={writerPhotoUrl}
                 writerId={writerId}
+                userObj={userObj}
+                tweetObj={tweetObj}
               />
               ))}
               {comments.length === 0 ? <span className="tweet__comments__memo">Write a First Comment!</span>: ""}
